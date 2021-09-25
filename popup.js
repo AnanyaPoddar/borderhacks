@@ -124,3 +124,46 @@ window.addEventListener("DOMContentLoaded", event => {
         });
     });
 });
+
+
+
+// Definitions: Input Word
+const inputEl = document.getElementById("input-el");
+const defBtn = document.getElementById("def-btn");
+const def = document.getElementById("definitions-el");
+const word = document.getElementById("word-el");
+defBtn.addEventListener("click", function(){
+    def.innerHTML = "Definition: ";
+    word.innerHTML = "Word: " + inputEl.value;
+    const request = new XMLHttpRequest();
+    request.open("GET", "https://api.dictionaryapi.dev/api/v2/entries/en/" + inputEl.value);
+    request.send();
+    request.onload = function() {
+        let data = JSON.parse(request.response); //this.response
+        def.innerHTML += data[0].meanings[0].definitions[0].definition;
+        // Account for when it's a non-existent word and so doesn't have definition. 
+        // Make sure it's a valid single word
+        //def.innerHTML += request.response;
+    };
+});
+
+// Definitions: Select Word (on pop-up)
+
+document.addEventListener("selectionchange", () => {
+    console.log("Here")
+    document.body.onmouseup = function(){
+        console.log("Here2")
+        let selected = window.getSelection().toString();
+        def.innerHTML = "Definition: ";
+        word.innerHTML = "Word: " + selected;
+        console.log("https://api.dictionaryapi.dev/api/v2/entries/en/" + selected);
+        const request2 = new XMLHttpRequest();
+        request2.open("GET", "https://api.dictionaryapi.dev/api/v2/entries/en/" + selected);
+        request2.send();
+        request2.onload = function() {
+            let data2 = JSON.parse(request2.response); //this.response
+            def.innerHTML += data2[0].meanings[0].definitions[0].definition;
+        }
+        
+    }
+})
