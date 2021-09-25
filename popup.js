@@ -91,3 +91,36 @@ font.addEventListener('input', function () {
         console.log("info sent font")
     });
 });
+
+
+// ambient sound 
+window.addEventListener("DOMContentLoaded", event => {
+    // event listener for  input
+    let volumes = [0.2, 0.2, 0.2];
+    var playPauseBtn = document.getElementById("play-it");
+    var action = "pause";
+    // change volume of songs
+    for (let sound_i = 0; sound_i < volumes.length; sound_i++) {
+        const soundVolTracker = document.querySelectorAll('.sound-inp')[sound_i];
+        soundVolTracker.addEventListener('input', function () {
+            // converts brightness value between 0 to 1
+            volumes[sound_i] = (soundVolTracker.value / 100).toFixed(2).toString();
+            chrome.extension.sendMessage({ 
+                action: action,
+                volumes: volumes, 
+            });
+        });
+    }
+    playPauseBtn.addEventListener("click", function () {
+        console.log("Play was clicked");
+        if (action == "play") {
+            action = "pause";
+        } else {
+            action = "play"
+        }
+        chrome.extension.sendMessage({ 
+            action: action,
+            volumes: volumes, 
+        });
+    });
+});

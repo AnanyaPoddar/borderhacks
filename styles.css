@@ -107,6 +107,9 @@ h1 {
     cursor: pointer;
   }
 
+  .sounds {
+    font-size: 12px;
+  }
 
 /* DarkMode */
   
