@@ -1,5 +1,17 @@
 // msgObj should have all the user inputs from the popup
 // ie. brightness, saturation, colormap, ...
+// chrome.runtime.window.onload = function () {
+//     chrome.storage.sync.get('fontSize', function (data) {
+//         fontSize.value = data.fontSize;
+//     });
+//     chrome.storage.sync.get('font', function (data) {
+//         font.value = data.font;
+//     });
+//     chrome.storage.sync.get('darkMode', function (data) {
+//         darkMode = data.darkMode;
+//     });
+//     console.log(fontSize.value + " " + font.value + " " + darkMode.value);
+// }
 
 // listens to any input change of popup window and changes DOM of page accordingly
 chrome.runtime.onMessage.addListener(msgObj => {
@@ -8,11 +20,12 @@ chrome.runtime.onMessage.addListener(msgObj => {
     var allEls = document.querySelectorAll("h1, h2, h3, h4, h5, h6, p, a, div, body, img"); //and other elements
     for (var i = 0; i < allEls.length; i++) {
 
-        if (msgObj.type == "brightness") {
-            allEls[i].style.cssText += "filter:brightness(" + msgObj.value + ");";
-        } else if (msgObj.type == "saturation") {
-            allEls[i].style.cssText += "filter:saturate(" + msgObj.value + ");"
-        } else if (msgObj.type == "fontSize") {
+        // if (msgObj.type == "brightness") {
+        //     allEls[i].style.cssText += "filter:brightness(" + msgObj.value + ");";
+        // } else if (msgObj.type == "saturation") {
+        //     allEls[i].style.cssText += "filter:saturate(" + msgObj.value + ");"
+        // } 
+        if (msgObj.type == "fontSize") {
             allEls[i].style.cssText += "font-size:" + msgObj.value + "px;";
         } else if (msgObj.type == "font") {
             console.log(msgObj.value);

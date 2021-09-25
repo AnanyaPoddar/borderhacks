@@ -1,4 +1,18 @@
 // finds the input range slider
+
+window.onload = function () {
+    chrome.storage.sync.get('fontSize', function (data) {
+        fontSize.value = data.fontSize;
+    });
+    chrome.storage.sync.get('font', function (data) {
+        font.value = data.font;
+    });
+    chrome.storage.sync.get('darkMode', function (data) {
+        darkMode = data.darkMode;
+    });
+    console.log(fontSize.value + " " + font.value + " " + darkMode.value);
+}
+
 brightnessTracker = document.querySelectorAll('input')[0]
 saturationTracker = document.querySelectorAll('input')[1]
 
@@ -41,7 +55,7 @@ dark = document.getElementById('checkBox');
 
 dark.addEventListener('change', () => {
     document.body.classList.toggle('dark');
-    darkMode = document.body.classList.contains('dark');
+    var darkMode = document.body.classList.contains('dark');
     if (darkMode) {
         chrome.tabs.executeScript({
             file: "darkModeEnable.js"
@@ -54,12 +68,25 @@ dark.addEventListener('change', () => {
     }
 });
 
+font = document.getElementById("font");
+
+font.addEventListener('input', function () {
+    syncSet();
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id,
+            {
+                value: font.value,
+                type: "font"
+            });
+        console.log("info sent font");
+    });
+});
+
 
 fontSize = document.getElementById("font-size");
 
 fontSize.addEventListener('input', function () {
-
-    // sends message object to activated tab through tab id
+    syncSet();
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id,
             {
@@ -69,25 +96,7 @@ fontSize.addEventListener('input', function () {
         console.log("info sent fontSize")
     });
 });
-font.addEventListener('click', () => {
-    var text = font.options[font.selectedIndex].text;
-    chrome.tabs.executeScript({
-        code: "console.log('hello world');document.querySelector('body').innerText.style.font-size=500px;"
-    })
-})
 
-
-font = document.getElementById("font");
-
-font.addEventListener('input', function () {
-
-    // sends message object to activated tab through tab id
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id,
-            {
-                value: font.value,
-                type: "font"
-            });
-        console.log("info sent font")
-    });
-});
+function syncSet() {
+    chrome.storage.sync.set({ 'font': font.value, 'fontSize': fontSize.value, 'darkMode': darkMode }, function () { console.log("font: " + font.value + " fontSize: " + fontSize.value); });
+}
