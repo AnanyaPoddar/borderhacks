@@ -196,3 +196,19 @@ document.addEventListener("selectionchange", () => {
 
     }
 })
+
+//censor words
+let censorWords = [];
+const addCensorBtn = document.getElementById("add-censor-btn");
+addCensorBtn.addEventListener("click", function(){
+    const inputEl = document.getElementById("censor-inp");
+    censorWords.push(inputEl.value);
+    console.log(censorWords);
+
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, 
+            {censorWords: censorWords});
+        console.log("info sent")
+    });
+});
+

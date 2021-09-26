@@ -49,3 +49,26 @@ chrome.runtime.onMessage.addListener(msgObj => {
 
     }
 });
+
+// stuff for censoring words
+chrome.runtime.onMessage.addListener(msgObj => {
+    console.log("recieved a message")
+
+    // TODO add another item to the json object true/false and toggle with event listener
+    const text = document.querySelectorAll('h1, h2, h3, h4, h5, p, caption, span, a, div');
+
+    var censorWords = msgObj.censorWords;
+    console.log(censorWords);
+    for (let i = 0; i < text.length; i++) {
+        // loop over words
+        for (var j = 0; j < censorWords.length; j++) {
+            if (text[i].innerHTML.includes(censorWords[j])) {
+                var replaceCensorWord = "<span style='color:red; background-color:black'>blocked by AccessMe</span>";
+                console.log("censored word:" + replaceCensorWord);
+                text[i].innerHTML = text[i].innerHTML.replace(censorWords[j], replaceCensorWord);
+            }
+        }
+
+    }
+
+});
