@@ -34,3 +34,23 @@ chrome.runtime.onMessage.addListener(msgObj => {
 
     }
 });
+
+
+
+// Definitions - body select's a word
+
+document.addEventListener("selectionchange", function() {
+    document.addEventListener("dblclick", function(){
+        let selected = window.getSelection().toString();
+        const request = new XMLHttpRequest();
+        console.log("https://api.dictionaryapi.dev/api/v2/entries/en/" + selected);
+        request.open("GET", "https://api.dictionaryapi.dev/api/v2/entries/en/" + selected);
+        request.send();
+        request.onload = function() {
+            let data = JSON.parse(this.response); //this.response
+            console.log(data[0].meanings[0].definitions[0].definition);
+            // ACCOUNT FOR WHEN NOT CLICKED ON REAL WORD
+        }
+        
+    })
+})

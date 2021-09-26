@@ -132,9 +132,12 @@ const inputEl = document.getElementById("input-el");
 const defBtn = document.getElementById("def-btn");
 const def = document.getElementById("definitions-el");
 const word = document.getElementById("word-el");
+let arr = [];
 defBtn.addEventListener("click", function(){
     def.innerHTML = "Definition: ";
     word.innerHTML = "Word: " + inputEl.value;
+    arr.push(inputEl.value);
+    console.log(arr);
     const request = new XMLHttpRequest();
     request.open("GET", "https://api.dictionaryapi.dev/api/v2/entries/en/" + inputEl.value);
     request.send();
@@ -146,24 +149,3 @@ defBtn.addEventListener("click", function(){
         //def.innerHTML += request.response;
     };
 });
-
-// Definitions: Select Word (on pop-up)
-
-document.addEventListener("selectionchange", () => {
-    console.log("Here")
-    document.body.onmouseup = function(){
-        console.log("Here2")
-        let selected = window.getSelection().toString();
-        def.innerHTML = "Definition: ";
-        word.innerHTML = "Word: " + selected;
-        console.log("https://api.dictionaryapi.dev/api/v2/entries/en/" + selected);
-        const request2 = new XMLHttpRequest();
-        request2.open("GET", "https://api.dictionaryapi.dev/api/v2/entries/en/" + selected);
-        request2.send();
-        request2.onload = function() {
-            let data2 = JSON.parse(request2.response); //this.response
-            def.innerHTML += data2[0].meanings[0].definitions[0].definition;
-        }
-        
-    }
-})
