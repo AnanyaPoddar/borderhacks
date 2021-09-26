@@ -2,7 +2,7 @@
     background: white;
     border: solid 3px black;
     line-height: 25px;
-    position: sticky;
+    position: absolute;
     right: 20px;
     text-align: center;
     top: 20px;
