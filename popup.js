@@ -34,8 +34,8 @@ window.onload = function () {
     });
 }
 
-saturationracker = document.getElementById("saturation");
-brightnessTracker = document.getElementById("brightness")
+brightnessTracker = document.querySelectorAll('input')[0];
+saturationTracker = document.querySelectorAll('input')[1];
 
 brightnessTracker.addEventListener('input', function () {
 
