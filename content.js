@@ -191,36 +191,8 @@ document.addEventListener('selectionchange', () => {
                     console.log("read");
                     speech.text = "";
                 }
-
-            }
-            else if (e.key == "t") {
-                document.onkeyup = function () {
-                    toRead = document.getSelection().toString();
-                    console.log(toRead);
-                    if (document.getElementById("chromeextensionpopup") != null) {
-                        document.getElementById("chromeextensionpopupcloselink").click();
-                    }
-                    getTranslation(toRead).then(transl => createPopup("Translation: " + transl.data.translation))
-                }
             }
         });
     }
 });
 
-function createPopup(text) {
-    var div = document.createElement("div");
-    div.setAttribute("id", "chromeextensionpopup");
-    div.innerText = text;
-    document.body.appendChild(div);
-
-    var closelink = document.createElement("div");
-    closelink.setAttribute("id", "chromeextensionpopupcloselink");
-    closelink.innerText = 'X';
-    document.getElementById("chromeextensionpopup").appendChild(closelink);
-
-    document.getElementById("chromeextensionpopupcloselink").addEventListener("click", removeExtensionPopup);
-}
-
-function removeExtensionPopup() {
-    document.getElementById("chromeextensionpopup").outerHTML = '';
-}
