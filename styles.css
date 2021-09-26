@@ -27,14 +27,6 @@ body {
   border-radius:0;
 }
 
-/* Home screen */
-
-/* .popup{
-  height:700px;
-  width:500px;
-  background-color: #f1f2f7;
-} */
-
 /* CARDS */
 
 .card-columns {
@@ -86,7 +78,7 @@ body {
   /* color:#04AA6D; */
 }
 
-#text-to-speech .card-title, #censor .card-title{
+#text-to-speech .card-title, #censor .card-title, #definitions .card-title{
   margin-top:2px;
   font-size: 1.35rem;
   font-weight:500;
@@ -224,6 +216,7 @@ body {
 
 button, input, optgroup, select, textarea{
   margin-bottom:10px;
+  /* border-radius:5px; */
 }
 
 /* .btn{
