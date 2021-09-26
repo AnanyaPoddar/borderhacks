@@ -121,7 +121,7 @@ fontSize.addEventListener('input', function () {
 // ambient sound 
 window.addEventListener("DOMContentLoaded", event => {
     // event listener for  input
-    let volumes = [0.2, 0.2, 0.2];
+    let volumes = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2];
     var playPauseBtn = document.getElementById("play");
     var action = "pause";
     // change volume of songs
@@ -190,6 +190,40 @@ addCensorBtn.addEventListener("click", function(){
             {censorWords: censorWords});
         console.log("info sent")
     });
+});
+
+let speech = new SpeechSynthesisUtterance();
+speech.lang = "en";
+
+let voices = [];
+window.speechSynthesis.onvoiceschanged = () => {
+  voices = window.speechSynthesis.getVoices();
+  let voiceSelect = document.querySelector("#voices");
+  voices.forEach((voice, i) => (voiceSelect.options[i] = new Option(voice.name, i)));
+};
+
+document.querySelector("#speed").addEventListener("input", () => {
+    const speed = document.querySelector("#speed").value;
+    speech.rate = speed;
+    document.querySelector("#speed-label").innerHTML = 'Speed - ' + speed;
+    // chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    //   chrome.tabs.sendMessage(tabs[0].id, 
+    //       {speed: speed,
+    //       type: "speed"});
+    //       console.log("info sent")
+    // });
+});
+
+document.querySelector("#pitch").addEventListener("input", () => {
+    const pitch = document.querySelector("#pitch").value;
+    speech.pitch = pitch;
+    document.querySelector("#pitch-label").innerHTML = 'Pitch - ' + pitch;
+    // chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    //     chrome.tabs.sendMessage(tabs[0].id, 
+    //         {pitch: pitch,
+    //         type: "pitch"});
+    //         console.log("info sent")
+    // });
 });
 
 

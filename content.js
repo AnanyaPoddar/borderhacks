@@ -1,5 +1,7 @@
 // msgObj should have all the user inputs from the popup
 // ie. brightness, saturation, colormap, ...
+let speech = new SpeechSynthesisUtterance();
+speech.lang = "en";
 
 window.addEventListener("DOMContentLoaded", data => {
     chrome.storage.sync.get('fontSize', function (data) {
@@ -44,7 +46,12 @@ chrome.runtime.onMessage.addListener(msgObj => {
             else if (msgObj.value == 'Bold')
                 allEls[i].style.cssText += "font-weight: 800;"
 
-        }
+        } 
+        // else if (msgObj.type == "speed") {
+        //   speech.rate = msgObj.speed;
+        // } else if (msgObj.type == "pitch") {
+        //   speech.pitch = msgObj.pitch;
+        // }
 
 
     }
@@ -148,3 +155,69 @@ chrome.runtime.onMessage.addListener(msgObj => {
     }
 
 });
+async function getTranslation(string1) {
+    let url = "https://google-translate20.p.rapidapi.com/translate";
+    let response = await fetch(url, {
+      "method": "POST",
+      "headers": {
+        "content-type": "application/json",
+        "x-rapidapi-host": "google-translate20.p.rapidapi.com",
+        "x-rapidapi-key": "4f2b707413msh892c935bf882abap1c7a6ajsnd17684296917"
+      },
+      "body": JSON.stringify({
+        "text": string1,
+        "tl": "fr",
+        "sl": "en"
+      })
+    });
+    transl = await response.json();
+    return transl;
+  }
+  
+  var toRead;
+  document.addEventListener('selectionchange', () => {
+    document.body.onmouseup = function() {
+      toRead = ""
+      document.addEventListener('keydown', (e) => {
+        if(e.key == "r"){
+          document.onkeyup = function () {
+            toRead = document.getSelection().toString();
+            console.log(toRead);
+            speech.text = toRead;
+            window.speechSynthesis.speak(speech);
+            console.log("read");
+            speech.text = "";
+          }
+          
+        }
+        else if(e.key == "t"){
+            document.onkeyup = function () {
+              toRead= document.getSelection().toString();
+              console.log(toRead);
+              if (document.getElementById("chromeextensionpopup") != null){
+                document.getElementById("chromeextensionpopupcloselink").click();
+              }
+              getTranslation(toRead).then(transl => createPopup("Translation: " + transl.data.translation))
+          }
+        }
+      });
+    }
+  });
+  
+  function createPopup(text){
+    var div = document.createElement("div");
+    div.setAttribute("id", "chromeextensionpopup");
+    div.innerText = text;
+    document.body.appendChild(div);
+    
+    var closelink = document.createElement("div");
+    closelink.setAttribute("id", "chromeextensionpopupcloselink");
+    closelink.innerText = 'X';
+    document.getElementById("chromeextensionpopup").appendChild(closelink);
+  
+    document.getElementById("chromeextensionpopupcloselink").addEventListener("click", removeExtensionPopup);
+  }
+  
+  function removeExtensionPopup(){
+      document.getElementById("chromeextensionpopup").outerHTML='';
+  }
