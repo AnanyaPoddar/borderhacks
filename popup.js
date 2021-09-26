@@ -199,6 +199,25 @@ addCensorBtn.addEventListener("click", function () {
     });
 });
 
+const showAll = document.getElementById("show-all-censored-btn");
+const hideAll = document.getElementById("hide-all-censored-btn");
+const showhideDiv = document.getElementById("showhide");
+showAll.addEventListener("click", function () {
+    showhideDiv.innerHTML = '';
+    var p = document.createElement("p");
+    p.setAttribute("style", "font-size:12px");
+    var wordsToshow = "";
+    showhideDiv.appendChild(p);
+    for (var i=0; i<censorWords.length; i++) {
+        wordsToshow += censorWords[i] + " ";
+    }
+    p.innerHTML = wordsToshow;
+    wordsToshow = "";
+});
+hideAll.addEventListener("click", function () {
+    showhideDiv.innerHTML = '';
+});
+
 let speech = new SpeechSynthesisUtterance();
 speech.lang = "en";
 
