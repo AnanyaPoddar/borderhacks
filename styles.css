@@ -4,6 +4,7 @@ body {
   font-size: 14px;
   margin: 0;
   padding: 0;
+  background-color: #f1f2f7;
 }
 
 .modal-header h1 {
@@ -28,11 +29,11 @@ body {
 
 /* Home screen */
 
-.popup{
+/* .popup{
   height:700px;
   width:500px;
   background-color: #f1f2f7;
-}
+} */
 
 /* CARDS */
 
@@ -83,6 +84,12 @@ body {
   margin-top:2px;
   font-size: 1.4rem;
   /* color:#04AA6D; */
+}
+
+#text-to-speech .card-title, #censor .card-title{
+  margin-top:2px;
+  font-size: 1.35rem;
+  font-weight:500;
 }
 
 #primary-color{
@@ -213,3 +220,13 @@ body {
   
   transition: all .5s ease;
 }
+
+
+button, input, optgroup, select, textarea{
+  margin-bottom:10px;
+}
+
+/* .btn{
+  display:block;
+  margin: 0 auto;
+} */
