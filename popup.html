@@ -34,6 +34,50 @@
     </div>
 
     <div class="card-columns">
+      <div class="card" id="text-to-speech">
+        <div class="card-body">
+          <img src="images/textToSpeech.png" class="card-img"></img>
+          <h4 class="card-title">Text-to-speech</h4>
+          <p>
+            Highlight text and click 'r' on your keyboard to hear the text spoken aloud.
+          </p>
+          <div class="flex slidecontainer">
+            <p>Voice</p>
+            <select class="form-control " id="voices">Select a voice</select>
+          </div>
+          <div class="flex slidecontainer">
+            <p id="speed-label">Speed: 1</p>
+            <input type="range" min="0.1" max="10" value="1" step="0.1" class="slider" id="speed">
+          </div>
+          <div class="flex slidecontainer">
+            <p id="pitch-label">Pitch: 1</p>
+            <input type="range" min="0" max="2" value="1" step="0.1" class="slider" id="pitch">
+          </div>
+        </div>
+      </div>
+      <div class="card" id="censor">
+        <div class="card-body">
+          <img src="images/cw.png" class="card-img"></img>
+          <h4 class="card-title">Censor Content</h4>
+          <p>Add to content warnings</p>
+          <input class="form-control" type="text" id="cw-input" placeholder="ex.SA">
+          <button class="btn btn-outline-success" id="add-cw-btn">Apply CW</button>
+          <p>Add to censored words</p>
+          <input class="form-control" type="text" id="censor-inp" placeholder="ex.coronavirus">
+          <button class="btn btn-outline-success" id="add-censor-btn">Censor</button>
+        </div>
+      </div>
+      <div class="card primary-color" id="definitions">
+        <div class="card-body">
+          <img src="images/dictionary.png" class="card-img"></img>
+          <h4 class="card-title">Definitions</h4>
+          <p>Enter word to define</p>
+          <input class="form-control" type="text" id="input-el" placeholder="ex.stupendous">
+          <button class="btn btn-dark" id="def-btn">Search</button>
+          <p class="card-text" id="word-el"> Word: </p>
+          <p class="card-text" id="definitions-el">Definitions:</p>
+        </div>
+      </div>
       <div class="card">
         <div class="card-body" id="adjust-text">
           <img src="images/adjustText2.png" class="card-img"></img>
@@ -50,6 +94,32 @@
           </select>
           <span>Choose font size</span>
           <input class="form-control" type="number" value="12" min="5" max="1000" step="1" id="font-size" />
+        </div>
+      </div>
+      <!-- Dark mode + saturation -->
+      <div class="card primary-color">
+        <div class="card-body">
+          <div class="flex-container">
+            <img src="images/aesthetics2.png" class="card-img"></img>
+            <h4 class="card-title ">Adjust Visuals</h4>
+            <span>Dark Mode</span>
+            <br>
+            <label id="darkMode">
+              <input type="checkbox" id="checkBox">
+              <span class="toggler"></span>
+            </label>
+            <br>
+            <span>Saturation</span>
+            <div class="flex slidecontainer">
+              <input type="range" min="0" max="100" value="50" class="slider">
+              <output>0</output>
+            </div>
+            <span>Brightness</span>
+            <div class="flex slidecontainer">
+              <input type="range" min="0" max="100" value="50" class="slider">
+              <output>0</output>
+            </div>
+          </div>
         </div>
       </div>
       <!-- ambient sounds card-->
@@ -95,82 +165,6 @@
               <label class="icon" for="play"></label>
             </div>
           </div>
-        </div>
-      </div>
-      <!-- <div class="card">
-        <div class="card-body">
-          <h5 class="Censoring">Card title</h5>
-          <input type="text" id="censor-inp">
-          <button class="btn btn-outline-success" id="add-censor-btn">censor</button>
-        </div>
-      </div> -->
-      <!-- Dark mode + saturation -->
-      <div class="card " id="primary-color">
-        <div class="card-body">
-          <div class="flex-container">
-            <span>Dark mode</span>
-            <br>
-            <label id="darkMode">
-              <input type="checkbox" id="checkBox">
-              <span class="toggler"></span>
-            </label>
-            <br>
-            <span>Saturation</span>
-            <div class="flex slidecontainer">
-              <input type="range" min="0" max="100" value="50" class="slider">
-              <output>0</output>
-            </div>
-            <span>Brightness</span>
-            <div class="flex slidecontainer">
-              <input type="range" min="0" max="100" value="50" class="slider">
-              <output>0</output>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="card" id="censor">
-        <div class="card-body">
-          <img src="images/cw.png" class="card-img"></img>
-          <h4 class="card-title">Censor Content</h4>
-          <p>Add to content warnings</p>
-          <input type="text" id="cw-input" placeholder="ex.SA">
-          <button class="btn btn-outline-success" id="add-cw-btn">Apply CW</button>
-          <p>Add to censored words</p>
-          <input type="text" id="censor-inp" placeholder="ex.coronavirus">
-          <button class="btn btn-outline-success" id="add-censor-btn">Censor</button>
-        </div>
-      </div>
-      <div class="card" id="text-to-speech">
-        <div class="card-body">
-          <img src="images/textToSpeech.png" class="card-img"></img>
-          <h4 class="card-title">Text-to-speech</h4>
-          <p>
-            Highlight text and click 'r' on your keyboard to hear the text spoken aloud.
-          </p>
-          <div class="flex slidecontainer">
-            <select class="form-control " id="voices">Select a voice</select>
-            <p>Voice</p>
-          </div>
-          <div class="flex slidecontainer">
-            <input type="range" min="0.1" max="10" value="1" step="0.1" class="slider" id="speed">
-            <p id="speed-label">Speed - 1</p>
-          </div>
-          <div class="flex slidecontainer">
-            <input type="range" min="0" max="2" value="1" step="0.1" class="slider" id="pitch">
-            <p id="pitch-label">Pitch - 1</p>
-          </div>
-          <!-- Definitions -->
-        </div>
-      </div>
-      <div class="card" id="definitions">
-        <div class="card-body">
-          <img src="images/dictionary.png" class="card-img"></img>
-          <h4 class="card-title">Definitions</h4>
-          <input type="text" id="input-el">
-          <br>
-          <button class="btn btn-outline-success" id="def-btn">Search</button>
-          <p class="card-text" id="word-el"> Word: </p>
-          <p class="card-text" id="definitions-el">Definitions:</p>
         </div>
       </div>
 </body>
