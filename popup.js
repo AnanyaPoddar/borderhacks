@@ -41,7 +41,7 @@ brightnessTracker.addEventListener('input', function () {
 
     // converts brightness value between 0 to 1
     var brightnessVal = (brightnessTracker.value / 100).toFixed(2).toString();
-    document.querySelectorAll('output')[0].innerHTML = brightnessVal;
+    // document.querySelectorAll('output')[0].innerHTML = brightnessVal;
 
     // sends message object to activated tab through tab id
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -58,7 +58,7 @@ saturationTracker.addEventListener('input', function () {
 
     // converts brightness value between 0 to 1
     var saturationVal = (saturationTracker.value / 100).toFixed(2).toString();
-    document.querySelectorAll('output')[1].innerHTML = saturationVal;
+    // document.querySelectorAll('output')[1].innerHTML = saturationVal;
 
     // sends message object to activated tab through tab id
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
