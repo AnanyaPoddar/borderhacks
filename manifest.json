@@ -3,7 +3,11 @@
   "name": "AccessMe",
   "description": "Quick launch",
   "version": "1.0.0",
+  "icons": {
+    "128": "./images/iconV1.png"
+  },
   "browser_action": {
+    "default_icon": "./images/iconV1.png",
     "default_popup": "popup.html"
   },
   "content_scripts": [

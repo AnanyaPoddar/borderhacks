@@ -6,12 +6,19 @@ body {
   padding: 0;
 }
 
-h1 {
-  font-family: "Menlo", monospace;
-  font-size: 22px;
+.modal-header h1 {
+  font-size: 30px;
   font-weight: 400;
-  margin: 0;
+  margin-left: 10px;
+  margin-top: 5px;
   color: #2f5876;
+}
+.logo{
+  width: 70px;
+}
+
+.modal-header{
+  justify-content: center;
 }
 
 /* Home screen */
@@ -19,6 +26,7 @@ h1 {
 .popup{
   height:500px;
   width:500px;
+  background-color: #f1f2f7;
 }
 
 /* #home-screen{
@@ -58,7 +66,7 @@ h1 {
 }
 
 .card-title{
-  padding: 8px;
+  padding: 8px 0;
   font-weight:400;
 }
 
@@ -73,6 +81,15 @@ h1 {
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+#ambient-noise{
+  border-color:#04AA6D;
+}
+
+#ambient-noise .card-title{
+  margin-top:2px;
+  font-size: 1.4rem;
+  color:#04AA6D;
 }
 
 /* Saturation */
@@ -161,16 +178,11 @@ h1 {
   background-color: white;
 }
 
-
-/* AdjustText */
-
-#font, #font-size{
-  text-align: center;
-}
-
 /* Ambient sounds play/pause */
 #play-it{
-  display: block;
+  /* display: block; */
+  display: inline;
+  float: right;
   height: 30px;
   width: 30px;
   margin: 0 auto;
@@ -182,13 +194,14 @@ h1 {
 #play:checked~.icon{
   width:20px;
   height:30px;
-  border-left: 6px solid black;
-  border-right: 6px solid black;
+  border-left: 6px solid #04AA6D;
+  border-right: 6px solid #04AA6D;
   border-top: 0px solid transparent;
   border-bottom: 0px solid transparent;
 }
 
 #play-it .icon{
+  margin-top: 5px;
   display:block;
   left:0;right:0;
   bottom:0;top:0;
@@ -198,7 +211,7 @@ h1 {
   
   border-top: 15px solid transparent;
   border-bottom: 15px solid transparent;
-  border-left: 20px solid black;
+  border-left: 20px solid #04AA6D;
   
   transition: all .5s ease;
 }

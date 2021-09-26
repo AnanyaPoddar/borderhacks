@@ -27,10 +27,9 @@
 <body>
   <div class="popup">
     <div class="modal-header">
-      <h1 class="logo">
-        <!-- <img class="logo-icon" src="images/logo.png" /> -->
-        Launcher test
-        <span class="version">(1.0.0)</span>
+      <img class="logo" src="images/iconV1.png" alt="">
+      <h1>
+        AccessMe
       </h1>
     </div>
 
@@ -40,7 +39,7 @@
           <div class="card-body" id="adjust-text">
             <img src="images/adjustText.png" class="card-img"></img>
             <h4 class="card-title text-primary">Adjust Text</h4>
-
+            <span>Choose a font</span>
             <select class="form-control " id="font">
               <option>Choose a font</option>
               <option>Arial</option>
@@ -51,7 +50,33 @@
               <option>Bold</option>
             </select>
             <br>
+            <span>Choose font size</span>
             <input class="form-control" type="number" value="12" min="5" max="1000" step="1" id="font-size" />
+          </div>
+        </div>
+        <!-- ambient sounds card-->
+        <div class="card" id="ambient-noise">
+          <div class="card-body">
+            <img src="images/ambientNoise.png" class="card-img"></img>
+            <h4 class="card-title">Ambient Noise</h4>
+            <div class="flex-container">
+              <div class="flex slidecontainer">
+                <span class="sounds">Birds</span>
+                <input type="range" min="0" max="100" value="20" class="slider sound-inp">
+              </div>
+              <div class="flex slidecontainer">
+                <span class="sounds">Wind</span>
+                <input type="range" min="0" max="100" value="20" class="slider sound-inp">
+              </div>
+              <div class="flex slidecontainer">
+                <span class="sounds">Water</span>
+                <input type="range" min="0" max="100" value="20" class="slider sound-inp">
+              </div>
+            </div>
+            <div id="play-it">
+              <input type="checkbox" id="play">
+              <label class="icon" for="play"></label>
+            </div>
           </div>
         </div>
         <div class="card">
@@ -72,29 +97,6 @@
             </div>
           </div>
         </div>
-        <!-- ambient sounds card-->
-        <div class="card">
-          <div class="card-body">
-            <div class="flex-container">
-              <div id="play-it">
-                <input type="checkbox" id="play">
-                <label class="icon" for="play"></label>
-              </div>
-              <div class="flex slidecontainer">
-                <span class="sounds">Birds</span>
-                <input type="range" min="0" max="100" value="20" class="slider sound-inp">
-              </div>
-              <div class="flex slidecontainer">
-                <span class="sounds">Wind</span>
-                <input type="range" min="0" max="100" value="20" class="slider sound-inp">
-              </div>
-              <div class="flex slidecontainer">
-                <span class="sounds">Water</span>
-                <input type="range" min="0" max="100" value="20" class="slider sound-inp">
-              </div>
-            </div>
-          </div>
-        </div>
         <div class="card">
           <div class="card-body">
             <h5 class="card-title">Card title</h5>
@@ -103,7 +105,7 @@
           </div>
         </div>
         <div class="card bg-primary text-white text-center">
-        
+
         </div>
         <div class="card text-center">
           <div class="card-body">
@@ -111,16 +113,6 @@
             <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
             <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
           </div>
-        </div>
-        <div class="card p-3 text-right">
-          <blockquote class="blockquote mb-0">
-            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer posuere erat a ante.</p>
-            <footer class="blockquote-footer">
-              <small class="text-muted">
-                Someone famous in <cite title="Source Title">Source Title</cite>
-              </small>
-            </footer>
-          </blockquote>
         </div>
         <!-- Definitions -->
         <div class="card">
