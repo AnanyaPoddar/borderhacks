@@ -47,11 +47,11 @@ chrome.runtime.onMessage.addListener(msgObj => {
                 allEls[i].style.cssText += "font-weight: 800;"
 
         } 
-        // else if (msgObj.type == "speed") {
-        //   speech.rate = msgObj.speed;
-        // } else if (msgObj.type == "pitch") {
-        //   speech.pitch = msgObj.pitch;
-        // }
+        else if (msgObj.type == "speed") {
+          speech.rate = msgObj.speed;
+        } else if (msgObj.type == "pitch") {
+          speech.pitch = msgObj.pitch;
+        }
 
 
     }
