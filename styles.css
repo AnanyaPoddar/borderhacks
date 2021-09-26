@@ -107,7 +107,7 @@ h1 {
     cursor: pointer;
   }
 
-  .sounds {
+  .sounds .tts-features {
     font-size: 12px;
   }
 
