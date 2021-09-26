@@ -12,7 +12,8 @@ window.onload = function () {
         console.log(darkMode.value);
     });
     if (darkMode) {
-        document.getElementById('checkbox').checked = true;
+        if (document.getElementById('checkbox') != null)
+            document.getElementById('checkbox').checked = true;
     }
 
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
@@ -176,23 +177,20 @@ defBtn.addEventListener("click", function () {
     };
 });
 
-// Definitions: Select Word (on pop-up)
+//censor words
+let censorWords = [];
+const addCensorBtn = document.getElementById("add-censor-btn");
+addCensorBtn.addEventListener("click", function(){
+    const inputEl = document.getElementById("censor-inp");
+    censorWords.push(inputEl.value);
+    console.log(censorWords);
 
-document.addEventListener("selectionchange", () => {
-    console.log("Here")
-    document.body.onmouseup = function () {
-        console.log("Here2")
-        let selected = window.getSelection().toString();
-        def.innerHTML = "Definition: ";
-        word.innerHTML = "Word: " + selected;
-        console.log("https://api.dictionaryapi.dev/api/v2/entries/en/" + selected);
-        const request2 = new XMLHttpRequest();
-        request2.open("GET", "https://api.dictionaryapi.dev/api/v2/entries/en/" + selected);
-        request2.send();
-        request2.onload = function () {
-            let data2 = JSON.parse(request2.response); //this.response
-            def.innerHTML += data2[0].meanings[0].definitions[0].definition;
-        }
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, 
+            {censorWords: censorWords});
+        console.log("info sent")
+    });
+});
 
-    }
-})
+
+
