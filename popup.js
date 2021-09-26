@@ -195,16 +195,29 @@ addCensorBtn.addEventListener("click", function () {
 let speech = new SpeechSynthesisUtterance();
 speech.lang = "en";
 
+
 let voices = [];
 window.speechSynthesis.onvoiceschanged = () => {
-    voices = window.speechSynthesis.getVoices();
-    let voiceSelect = document.querySelector("#voices");
-    voices.forEach((voice, i) => (voiceSelect.options[i] = new Option(voice.name, i)));
+  voices = window.speechSynthesis.getVoices();
+  let voiceSelect = document.querySelector("#voices");
+  voices.forEach((voice, i) => (voiceSelect.options[i] = new Option(voice.name, i)));
+  const storedVoice = JSON.parse(localStorage.getItem("index"));
+  if(storedVoice){
+        speech.voice = voices[storedVoice];
+        document.querySelector("#voices").selectedIndex = storedVoice;
+    } 
 };
+
+const storedSpeed = JSON.parse(localStorage.getItem("speed"));
+if(storedSpeed){
+    document.querySelector("#speed").setAttribute("value", storedSpeed);
+    document.querySelector("#speed-label").innerHTML = 'Speed - ' + storedSpeed;
+}
 
 document.querySelector("#speed").addEventListener("input", () => {
     const speed = document.querySelector("#speed").value;
     speech.rate = speed;
+    localStorage.setItem("speed", speed)
     document.querySelector("#speed-label").innerHTML = 'Speed - ' + speed;
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
       chrome.tabs.sendMessage(tabs[0].id, 
@@ -214,9 +227,15 @@ document.querySelector("#speed").addEventListener("input", () => {
     });
 });
 
+const storedPitch = JSON.parse(localStorage.getItem("pitch"));
+if(storedPitch){
+    document.querySelector("#pitch").setAttribute("value", storedPitch);
+    document.querySelector("#pitch-label").innerHTML = 'Pitch - ' + storedPitch;
+}
 document.querySelector("#pitch").addEventListener("input", () => {
     const pitch = document.querySelector("#pitch").value;
     speech.pitch = pitch;
+    localStorage.setItem("pitch", pitch)
     document.querySelector("#pitch-label").innerHTML = 'Pitch - ' + pitch;
     chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
         chrome.tabs.sendMessage(tabs[0].id, 
@@ -226,6 +245,16 @@ document.querySelector("#pitch").addEventListener("input", () => {
     });
 });
 
+document.querySelector("#voices").addEventListener("change", () => {
+    speech.voice = voices[document.querySelector("#voices").value];
+    localStorage.setItem("index", document.querySelector("#voices").value);
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, 
+            {voiceIndex: document.querySelector("#voices").value,
+            type: "voice"});
+            console.log("info sent")
+    });
+});
 
 // Show Content Warnings 
 let cwWords = []; // Content Warning Words

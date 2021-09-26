@@ -46,11 +46,14 @@ chrome.runtime.onMessage.addListener(msgObj => {
             else if (msgObj.value == 'Bold')
                 allEls[i].style.cssText += "font-weight: 800;"
 
-        }
-        else if (msgObj.type == "speed") {
+        } else if (msgObj.type == "speed") {
             speech.rate = msgObj.speed;
         } else if (msgObj.type == "pitch") {
             speech.pitch = msgObj.pitch;
+        } else if (msgObj.type == "voice") {
+            let voices = [];
+            voices = window.speechSynthesis.getVoices();
+            speech.voice = voices[msgObj.voiceIndex];
         }
 
 
