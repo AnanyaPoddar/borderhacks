@@ -1,5 +1,6 @@
 (function () {
     document.querySelector("html").style.filter = "invert(0) hue-rotate(0deg)";
+    document.querySelector("html").style.removeProperty("filter");
     let media = document.querySelectorAll("img", "picture", "video");
-    media.forEach((m) => { m.style.filter = " invert(0) hue-rotate(0deg)" })
+    media.forEach((m) => { m.style.removeProperty("filter") })
 }());

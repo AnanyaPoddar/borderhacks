@@ -1,18 +1,33 @@
 // msgObj should have all the user inputs from the popup
 // ie. brightness, saturation, colormap, ...
 
+window.addEventListener("DOMContentLoaded", data => {
+    chrome.storage.sync.get('fontSize', function (data) {
+        console.log(data.fontSize);
+    });
+    chrome.storage.sync.get('font', function (data) {
+        font.value = data.font;
+    });
+    chrome.storage.sync.get('darkMode', function (data) {
+        darkMode = data.darkMode;
+    });
+    console.log(fontSize.value + " " + font.value + " " + darkMode.value);
+});
+
 // listens to any input change of popup window and changes DOM of page accordingly
 chrome.runtime.onMessage.addListener(msgObj => {
+    // console.log('Hello' + chrome.storage.sync.get('fontSize').value);
     console.log("recieved a message")
     //selecting all elements to be changed
     var allEls = document.querySelectorAll("h1, h2, h3, h4, h5, h6, p, a, div, body, img"); //and other elements
     for (var i = 0; i < allEls.length; i++) {
 
-        if (msgObj.type == "brightness") {
-            allEls[i].style.cssText += "filter:brightness(" + msgObj.value + ");";
-        } else if (msgObj.type == "saturation") {
-            allEls[i].style.cssText += "filter:saturate(" + msgObj.value + ");"
-        } else if (msgObj.type == "fontSize") {
+        // if (msgObj.type == "brightness") {
+        //     allEls[i].style.cssText += "filter:brightness(" + msgObj.value + ");";
+        // } else if (msgObj.type == "saturation") {
+        //     allEls[i].style.cssText += "filter:saturate(" + msgObj.value + ");"
+        // } 
+        if (msgObj.type == "fontSize") {
             allEls[i].style.cssText += "font-size:" + msgObj.value + "px;";
         } else if (msgObj.type == "font") {
             console.log(msgObj.value);
@@ -35,6 +50,7 @@ chrome.runtime.onMessage.addListener(msgObj => {
     }
 });
 
+<<<<<<< HEAD
 
 
 // Definitions - body select's a word
@@ -54,3 +70,27 @@ document.addEventListener("selectionchange", function() {
         
     })
 })
+=======
+// stuff for censoring words
+chrome.runtime.onMessage.addListener(msgObj => {
+    console.log("recieved a message")
+
+    // TODO add another item to the json object true/false and toggle with event listener
+    const text = document.querySelectorAll('h1, h2, h3, h4, h5, p, caption, span, a, div');
+
+    var censorWords = msgObj.censorWords;
+    console.log(censorWords);
+    for (let i = 0; i < text.length; i++) {
+        // loop over words
+        for (var j = 0; j < censorWords.length; j++) {
+            if (text[i].innerHTML.includes(censorWords[j])) {
+                var replaceCensorWord = "<span style='color:red; background-color:black'>blocked by AccessMe</span>";
+                console.log("censored word:" + replaceCensorWord);
+                text[i].innerHTML = text[i].innerHTML.replace(censorWords[j], replaceCensorWord);
+            }
+        }
+
+    }
+
+});
+>>>>>>> e1c747fe3a16415604bbb738f91a228062b97ff2

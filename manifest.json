@@ -17,15 +17,18 @@
     }
   ],
   "permissions": [
-    "activeTab"
-  ], 
+    "activeTab",
+    "storage"
+  ],
   "background": {
-    "scripts": ["background.js"],
+    "scripts": [
+      "background.js"
+    ],
     "persistent": true
-  }, 
+  },
   "web_accessible_resources": [
-		"sounds/wind.mp3", 
+    "sounds/wind.mp3",
     "sounds/water.mp3",
     "sounds/birds.mp3"
-	]
+  ]
 }

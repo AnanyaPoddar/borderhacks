@@ -1,4 +1,38 @@
 // finds the input range slider
+
+window.onload = function () {
+    chrome.storage.sync.get('fontSize', function (data) {
+        fontSize.value = data.fontSize;
+    });
+    chrome.storage.sync.get('font', function (data) {
+        font.value = data.font;
+    });
+    chrome.storage.sync.get('darkMode', function (data) {
+        darkMode.value = data.darkMode;
+        console.log(darkMode.value);
+    });
+    if (darkMode) {
+        document.getElementById('checkbox').checked = true;
+    }
+
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id,
+            {
+                value: fontSize.value,
+                type: "fontSize"
+            });
+        console.log("info sent fontSize")
+    });
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id,
+            {
+                value: font.value,
+                type: "font"
+            });
+        console.log("info sent font")
+    });
+}
+
 brightnessTracker = document.querySelectorAll('input')[0]
 saturationTracker = document.querySelectorAll('input')[1]
 
@@ -41,7 +75,7 @@ dark = document.getElementById('checkBox');
 
 dark.addEventListener('change', () => {
     document.body.classList.toggle('dark');
-    darkMode = document.body.classList.contains('dark');
+    var darkMode = document.body.classList.contains('dark');
     if (darkMode) {
         chrome.tabs.executeScript({
             file: "darkModeEnable.js"
@@ -54,12 +88,25 @@ dark.addEventListener('change', () => {
     }
 });
 
+font = document.getElementById("font");
+
+font.addEventListener('input', function () {
+    syncSet();
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id,
+            {
+                value: font.value,
+                type: "font"
+            });
+        console.log("info sent font");
+    });
+});
+
 
 fontSize = document.getElementById("font-size");
 
 fontSize.addEventListener('input', function () {
-
-    // sends message object to activated tab through tab id
+    syncSet();
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
         chrome.tabs.sendMessage(tabs[0].id,
             {
@@ -69,35 +116,12 @@ fontSize.addEventListener('input', function () {
         console.log("info sent fontSize")
     });
 });
-font.addEventListener('click', () => {
-    var text = font.options[font.selectedIndex].text;
-    chrome.tabs.executeScript({
-        code: "console.log('hello world');document.querySelector('body').innerText.style.font-size=500px;"
-    })
-})
-
-
-font = document.getElementById("font");
-
-font.addEventListener('input', function () {
-
-    // sends message object to activated tab through tab id
-    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-        chrome.tabs.sendMessage(tabs[0].id,
-            {
-                value: font.value,
-                type: "font"
-            });
-        console.log("info sent font")
-    });
-});
-
 
 // ambient sound 
 window.addEventListener("DOMContentLoaded", event => {
     // event listener for  input
     let volumes = [0.2, 0.2, 0.2];
-    var playPauseBtn = document.getElementById("play-it");
+    var playPauseBtn = document.getElementById("play");
     var action = "pause";
     // change volume of songs
     for (let sound_i = 0; sound_i < volumes.length; sound_i++) {
@@ -105,9 +129,9 @@ window.addEventListener("DOMContentLoaded", event => {
         soundVolTracker.addEventListener('input', function () {
             // converts brightness value between 0 to 1
             volumes[sound_i] = (soundVolTracker.value / 100).toFixed(2).toString();
-            chrome.extension.sendMessage({ 
+            chrome.extension.sendMessage({
                 action: action,
-                volumes: volumes, 
+                volumes: volumes,
             });
         });
     }
@@ -118,30 +142,32 @@ window.addEventListener("DOMContentLoaded", event => {
         } else {
             action = "play"
         }
-        chrome.extension.sendMessage({ 
+        chrome.extension.sendMessage({
             action: action,
-            volumes: volumes, 
+            volumes: volumes,
         });
     });
 });
 
 
+function syncSet() {
+    chrome.storage.sync.set({ 'font': font.value, 'fontSize': fontSize.value, 'darkMode': dark.checked }, function () {
+        console.log("font: " + font.value + " fontSize: " + fontSize.value);
+    });
+}
 
 // Definitions: Input Word
 const inputEl = document.getElementById("input-el");
 const defBtn = document.getElementById("def-btn");
 const def = document.getElementById("definitions-el");
 const word = document.getElementById("word-el");
-let arr = [];
-defBtn.addEventListener("click", function(){
+defBtn.addEventListener("click", function () {
     def.innerHTML = "Definition: ";
     word.innerHTML = "Word: " + inputEl.value;
-    arr.push(inputEl.value);
-    console.log(arr);
     const request = new XMLHttpRequest();
     request.open("GET", "https://api.dictionaryapi.dev/api/v2/entries/en/" + inputEl.value);
     request.send();
-    request.onload = function() {
+    request.onload = function () {
         let data = JSON.parse(request.response); //this.response
         def.innerHTML += data[0].meanings[0].definitions[0].definition;
         // Account for when it's a non-existent word and so doesn't have definition. 
@@ -149,3 +175,21 @@ defBtn.addEventListener("click", function(){
         //def.innerHTML += request.response;
     };
 });
+
+//censor words
+let censorWords = [];
+const addCensorBtn = document.getElementById("add-censor-btn");
+addCensorBtn.addEventListener("click", function(){
+    const inputEl = document.getElementById("censor-inp");
+    censorWords.push(inputEl.value);
+    console.log(censorWords);
+
+    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+        chrome.tabs.sendMessage(tabs[0].id, 
+            {censorWords: censorWords});
+        console.log("info sent")
+    });
+});
+
+
+
