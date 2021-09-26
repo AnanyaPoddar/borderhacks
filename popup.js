@@ -8,9 +8,29 @@ window.onload = function () {
         font.value = data.font;
     });
     chrome.storage.sync.get('darkMode', function (data) {
-        darkMode = data.darkMode;
+        darkMode.value = data.darkMode;
+        console.log(darkMode.value);
     });
-    console.log(fontSize.value + " " + font.value + " " + darkMode.value);
+    if (darkMode) {
+        document.getElementById('checkbox').checked = true;
+    }
+
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id,
+            {
+                value: fontSize.value,
+                type: "fontSize"
+            });
+        console.log("info sent fontSize")
+    });
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id,
+            {
+                value: font.value,
+                type: "font"
+            });
+        console.log("info sent font")
+    });
 }
 
 brightnessTracker = document.querySelectorAll('input')[0]
@@ -97,6 +117,41 @@ fontSize.addEventListener('input', function () {
     });
 });
 
+// ambient sound 
+window.addEventListener("DOMContentLoaded", event => {
+    // event listener for  input
+    let volumes = [0.2, 0.2, 0.2];
+    var playPauseBtn = document.getElementById("play");
+    var action = "pause";
+    // change volume of songs
+    for (let sound_i = 0; sound_i < volumes.length; sound_i++) {
+        const soundVolTracker = document.querySelectorAll('.sound-inp')[sound_i];
+        soundVolTracker.addEventListener('input', function () {
+            // converts brightness value between 0 to 1
+            volumes[sound_i] = (soundVolTracker.value / 100).toFixed(2).toString();
+            chrome.extension.sendMessage({
+                action: action,
+                volumes: volumes,
+            });
+        });
+    }
+    playPauseBtn.addEventListener("click", function () {
+        console.log("Play was clicked");
+        if (action == "play") {
+            action = "pause";
+        } else {
+            action = "play"
+        }
+        chrome.extension.sendMessage({
+            action: action,
+            volumes: volumes,
+        });
+    });
+});
+
+
 function syncSet() {
-    chrome.storage.sync.set({ 'font': font.value, 'fontSize': fontSize.value, 'darkMode': darkMode }, function () { console.log("font: " + font.value + " fontSize: " + fontSize.value); });
+    chrome.storage.sync.set({ 'font': font.value, 'fontSize': fontSize.value, 'darkMode': dark.checked }, function () {
+        console.log("font: " + font.value + " fontSize: " + fontSize.value);
+    });
 }

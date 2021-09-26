@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "Launcher",
+  "name": "AccessMe",
   "description": "Quick launch",
   "version": "1.0.0",
   "browser_action": {
@@ -19,5 +19,16 @@
   "permissions": [
     "activeTab",
     "storage"
+  ],
+  "background": {
+    "scripts": [
+      "background.js"
+    ],
+    "persistent": true
+  },
+  "web_accessible_resources": [
+    "sounds/wind.mp3",
+    "sounds/water.mp3",
+    "sounds/birds.mp3"
   ]
 }
