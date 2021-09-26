@@ -88,3 +88,63 @@ chrome.runtime.onMessage.addListener(msgObj => {
     }
 
 });
+
+// gets current CW words from localStorage, stores them in myCWWords
+const wordsFromLocalStorage = JSON.parse(localStorage.getItem("myCWWords"));
+let myCWWords = [];
+if(wordsFromLocalStorage){
+    myCWWords = wordsFromLocalStorage;
+}
+
+if(myCWWords.length > 0){
+    let includes = [];
+    const texts = document.querySelectorAll('h1, h2, h3, h4, h5, p, caption, span, a, div');
+    
+    for (let i = 0; i < texts.length; i++) {
+        // loop over words
+        for (var j = 0; j < myCWWords.length; j++) {
+            // If the current CW Word is in the text 
+            // AND it's not already in local storage, then it's in the includes array
+            if (texts[i].innerHTML.includes(myCWWords[j])) {
+                if(!(includes.includes(myCWWords[j]))){
+                    includes.push(myCWWords[j]);
+                    console.log("CW contained: " + includes);
+                }
+            }
+        }
+    }
+    alert("This article contains the words you've previously added: " 
+    + includes.join(", ") +". Would you like to proceed?");
+}
+
+// Content Warnings 
+chrome.runtime.onMessage.addListener(msgObj => {
+    console.log("CW recieved a message")
+
+    const text = document.querySelectorAll('h1, h2, h3, h4, h5, p, caption, span, a, div');
+
+    var cwWords = msgObj.cwWords;
+    console.log(cwWords);
+    //alert(cwWords);
+    if(cwWords.length > 0){
+        myCWWords.push(cwWords[cwWords.length - 1]); // only takes the last censored word
+        
+        let containedWords = []
+        localStorage.setItem("myCWWords", JSON.stringify(myCWWords));
+        for (let i = 0; i < text.length; i++) {
+            // loop over words - TO BE DELETED NOT NEEDED FOR CW
+            for (var j = 0; j < cwWords.length; j++) {
+                if (text[i].innerHTML.includes(cwWords[j])) {
+                    if(!(containedWords.includes(cwWords[j]))){
+                        containedWords.push(cwWords[j]);
+                        console.log("CW contained: " + containedWords);
+                    }
+                }
+            }
+        }
+        if(containedWords.length > 0){
+            alert("This article contains the new word: " + containedWords +". Would you like to proceed?");
+        }
+    }
+
+});
