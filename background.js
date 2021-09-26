@@ -12,11 +12,11 @@ function setUpAudioElement(source) {
 }
 
 let audios = [new Audio('sounds/birds.mp3'), new Audio('sounds/cicadas.mp3'), new Audio('sounds/leaves.mp3'),
-            new Audio('sounds/uguisu-bird.mp3'), new Audio('sounds/waterfall.mp3'), new Audio('sounds/water-stream.mp3'),
-            new Audio('sounds/windchime.mp3'), new Audio('sounds/wind.mp3')]
+new Audio('sounds/uguisu-bird.mp3'), new Audio('sounds/waterfall.mp3'), new Audio('sounds/water-stream.mp3'),
+new Audio('sounds/windchime.mp3'), new Audio('sounds/wind.mp3')]
 for (var i = 0; i < audios.length; i++) {
     audios[i].loop = true;
-    audios[i].play();
+    // audios[i].play();
 }
 
 chrome.extension.onMessage.addListener(
@@ -24,7 +24,7 @@ chrome.extension.onMessage.addListener(
         console.log("got the sound!");
         for (let i = 0; i < audios.length; i++) {
             if (request.action == "play") {
-                // audios[i].load;
+                audios[i].load;
                 audios[i].loop = true;
                 audios[i].play();
                 console.log(request.volumes);

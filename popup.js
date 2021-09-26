@@ -121,7 +121,7 @@ fontSize.addEventListener('input', function () {
 // ambient sound 
 window.addEventListener("DOMContentLoaded", event => {
     // event listener for  input
-    let volumes = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2];
+    let volumes = [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0];
     var playPauseBtn = document.getElementById("play");
     var action = "pause";
     // change volume of songs
@@ -136,7 +136,7 @@ window.addEventListener("DOMContentLoaded", event => {
             });
         });
     }
-    playPauseBtn.addEventListener("click", function () {
+    playPauseBtn.addEventListener("change", function () {
         console.log("Play was clicked");
         if (action == "play") {
             action = "pause";
@@ -180,14 +180,14 @@ defBtn.addEventListener("click", function () {
 //censor words
 let censorWords = [];
 const addCensorBtn = document.getElementById("add-censor-btn");
-addCensorBtn.addEventListener("click", function(){
+addCensorBtn.addEventListener("click", function () {
     const inputEl = document.getElementById("censor-inp");
     censorWords.push(inputEl.value);
     console.log(censorWords);
 
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, 
-            {censorWords: censorWords});
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id,
+            { censorWords: censorWords });
         console.log("info sent")
     });
 });
@@ -259,14 +259,14 @@ document.querySelector("#voices").addEventListener("change", () => {
 // Show Content Warnings 
 let cwWords = []; // Content Warning Words
 const addCWBtn = document.getElementById("add-cw-btn");
-addCWBtn.addEventListener("click", function(){
+addCWBtn.addEventListener("click", function () {
     const inputEl = document.getElementById("cw-input");
     cwWords.push(inputEl.value);
     console.log(cwWords);
 
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, 
-            {cwWords: cwWords});
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id,
+            { cwWords: cwWords });
         console.log("CW sent")
     });
 })

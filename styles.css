@@ -6,32 +6,33 @@ body {
   padding: 0;
 }
 
-h1 {
-  font-family: "Menlo", monospace;
-  font-size: 22px;
+.modal-header h1 {
+  font-size: 30px;
   font-weight: 400;
-  margin: 0;
-  color: #2f5876;
+  margin-left: 10px;
+  margin-top: 5px;
+  /* color: #2f5876; */
+  /* color: #4d6fff; */
+  color:white;
+}
+.logo{
+  width: 60px;
+}
+
+.modal-header{
+  justify-content: center;
+  padding:5px;
+  background-color: #343434;
+  border-radius:0;
 }
 
 /* Home screen */
 
 .popup{
-  height:500px;
+  height:700px;
   width:500px;
+  background-color: #f1f2f7;
 }
-
-/* #home-screen{
-  text-align:center;
-}
-
-#home-screen input[type="text"]{
-  border:0;
-  border-bottom: solid 2px black;
-  background:none;
-  display: block;
-  margin: 0 auto;
-}  */
 
 /* CARDS */
 
@@ -58,7 +59,7 @@ h1 {
 }
 
 .card-title{
-  padding: 8px;
+  padding: 8px 0;
   font-weight:400;
 }
 
@@ -73,6 +74,19 @@ h1 {
   left: 50%;
   -ms-transform: translate(-50%, -50%);
   transform: translate(-50%, -50%);
+}
+/* #ambient-noise{
+  border-color:#04AA6D;
+} */
+
+#ambient-noise .card-title{
+  margin-top:2px;
+  font-size: 1.4rem;
+  /* color:#04AA6D; */
+}
+
+#primary-color{
+  background-color: #3f43e7;
 }
 
 /* Saturation */
@@ -96,6 +110,7 @@ h1 {
     height: 15px;
     border-radius: 50%; 
     background: #04AA6D;
+    background: #4d6fff;
     cursor: pointer;
   }
   
@@ -103,7 +118,8 @@ h1 {
     width: 15px;
     height: 15px;
     border-radius: 50%;
-    background: #04AA6D;
+    /* background: #04AA6D; */
+    background: #4d6fff;
     cursor: pointer;
   }
 
@@ -115,10 +131,9 @@ h1 {
   
 #darkMode{
   position: relative;
-  width: 120px;
-  height: 68px;
+  width: 60px;
+  height: 34px;
   left: 0;
-  transform: scale(0.5);
 }
 
 #darkMode input{
@@ -142,17 +157,17 @@ h1 {
   content: '';
   position: absolute;
   background-color: white;
-  width: 52px;
-  height: 52px;
+  width: 25px;
+  height: 25px;
   border-radius: 50%;
-  left: 8px;
-  bottom: 5px;
+  left: 5px;
+  bottom: 3px;
   transition: 0.4s;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 6px 12px -2px, rgba(0, 0, 0, 0.3) 0px 3px 7px -3px;
 }
 
 #darkMode input:checked + .toggler::before{
-  transform: translateX(54px);
+  transform: translateX(28px);
   background-color: #343434;
   
 }
@@ -161,16 +176,11 @@ h1 {
   background-color: white;
 }
 
-
-/* AdjustText */
-
-#font, #font-size{
-  text-align: center;
-}
-
 /* Ambient sounds play/pause */
 #play-it{
-  display: block;
+  /* display: block; */
+  display: inline;
+  float: right;
   height: 30px;
   width: 30px;
   margin: 0 auto;
@@ -182,13 +192,14 @@ h1 {
 #play:checked~.icon{
   width:20px;
   height:30px;
-  border-left: 6px solid black;
-  border-right: 6px solid black;
+  border-left: 6px solid #4d6fff;
+  border-right: 6px solid #4d6fff;
   border-top: 0px solid transparent;
   border-bottom: 0px solid transparent;
 }
 
 #play-it .icon{
+  margin-top: 5px;
   display:block;
   left:0;right:0;
   bottom:0;top:0;
@@ -198,7 +209,7 @@ h1 {
   
   border-top: 15px solid transparent;
   border-bottom: 15px solid transparent;
-  border-left: 20px solid black;
+  border-left: 20px solid #4d6fff;
   
   transition: all .5s ease;
 }
