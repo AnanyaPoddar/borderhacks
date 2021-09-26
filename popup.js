@@ -170,7 +170,14 @@ defBtn.addEventListener("click", function () {
     request.send();
     request.onload = function () {
         let data = JSON.parse(request.response); //this.response
-        def.innerHTML += data[0].meanings[0].definitions[0].definition;
+        console.log(typeof data[0]);
+        if(typeof data[0] == "undefined"){
+            def.innerHTML += "Not a real word.";
+        }
+        else{
+            def.innerHTML += data[0].meanings[0].definitions[0].definition;
+        }
+            
         // Account for when it's a non-existent word and so doesn't have definition. 
         // Make sure it's a valid single word
         //def.innerHTML += request.response;
