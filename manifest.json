@@ -15,6 +15,7 @@
       "matches": [
         "https://*/*"
       ],
+      "css": ["style.css"],
       "js": [
         "content.js"
       ]
@@ -31,8 +32,14 @@
     "persistent": true
   },
   "web_accessible_resources": [
+    "sounds/birds.mp3",
     "sounds/wind.mp3",
-    "sounds/water.mp3",
-    "sounds/birds.mp3"
+    "sounds/cicadas.mp3",
+    "sounds/leaves.mp3",
+    "sounds/uguisu-bird.mp3",
+    "sounds/waterfall.mp3",
+    "sounds/water-stream.mp3",
+    "sounds/windchime.mp3"
+
   ]
 }

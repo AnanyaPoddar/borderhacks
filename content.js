@@ -1,5 +1,7 @@
 // msgObj should have all the user inputs from the popup
 // ie. brightness, saturation, colormap, ...
+let speech = new SpeechSynthesisUtterance();
+speech.lang = "en";
 
 window.addEventListener("DOMContentLoaded", data => {
     chrome.storage.sync.get('fontSize', function (data) {
@@ -44,7 +46,12 @@ chrome.runtime.onMessage.addListener(msgObj => {
             else if (msgObj.value == 'Bold')
                 allEls[i].style.cssText += "font-weight: 800;"
 
-        }
+        } 
+        // else if (msgObj.type == "speed") {
+        //   speech.rate = msgObj.speed;
+        // } else if (msgObj.type == "pitch") {
+        //   speech.pitch = msgObj.pitch;
+        // }
 
 
     }
@@ -88,3 +95,129 @@ chrome.runtime.onMessage.addListener(msgObj => {
     }
 
 });
+
+// gets current CW words from localStorage, stores them in myCWWords
+const wordsFromLocalStorage = JSON.parse(localStorage.getItem("myCWWords"));
+let myCWWords = [];
+if(wordsFromLocalStorage){
+    myCWWords = wordsFromLocalStorage;
+}
+
+if(myCWWords.length > 0){
+    let includes = [];
+    const texts = document.querySelectorAll('h1, h2, h3, h4, h5, p, caption, span, a, div');
+    
+    for (let i = 0; i < texts.length; i++) {
+        // loop over words
+        for (var j = 0; j < myCWWords.length; j++) {
+            // If the current CW Word is in the text 
+            // AND it's not already in local storage, then it's in the includes array
+            if (texts[i].innerHTML.includes(myCWWords[j])) {
+                if(!(includes.includes(myCWWords[j]))){
+                    includes.push(myCWWords[j]);
+                    console.log("CW contained: " + includes);
+                }
+            }
+        }
+    }
+    alert("This article contains the words you've previously added: " 
+    + includes.join(", ") +". Would you like to proceed?");
+}
+
+// Content Warnings 
+chrome.runtime.onMessage.addListener(msgObj => {
+    console.log("CW recieved a message")
+
+    const text = document.querySelectorAll('h1, h2, h3, h4, h5, p, caption, span, a, div');
+
+    var cwWords = msgObj.cwWords;
+    console.log(cwWords);
+    //alert(cwWords);
+    if(cwWords.length > 0){
+        myCWWords.push(cwWords[cwWords.length - 1]); // only takes the last censored word
+        
+        let containedWords = []
+        localStorage.setItem("myCWWords", JSON.stringify(myCWWords));
+        for (let i = 0; i < text.length; i++) {
+            // loop over words - TO BE DELETED NOT NEEDED FOR CW
+            for (var j = 0; j < cwWords.length; j++) {
+                if (text[i].innerHTML.includes(cwWords[j])) {
+                    if(!(containedWords.includes(cwWords[j]))){
+                        containedWords.push(cwWords[j]);
+                        console.log("CW contained: " + containedWords);
+                    }
+                }
+            }
+        }
+        if(containedWords.length > 0){
+            alert("This article contains the new word: " + containedWords +". Would you like to proceed?");
+        }
+    }
+
+});
+async function getTranslation(string1) {
+    let url = "https://google-translate20.p.rapidapi.com/translate";
+    let response = await fetch(url, {
+      "method": "POST",
+      "headers": {
+        "content-type": "application/json",
+        "x-rapidapi-host": "google-translate20.p.rapidapi.com",
+        "x-rapidapi-key": "4f2b707413msh892c935bf882abap1c7a6ajsnd17684296917"
+      },
+      "body": JSON.stringify({
+        "text": string1,
+        "tl": "fr",
+        "sl": "en"
+      })
+    });
+    transl = await response.json();
+    return transl;
+  }
+  
+  var toRead;
+  document.addEventListener('selectionchange', () => {
+    document.body.onmouseup = function() {
+      toRead = ""
+      document.addEventListener('keydown', (e) => {
+        if(e.key == "r"){
+          document.onkeyup = function () {
+            toRead = document.getSelection().toString();
+            console.log(toRead);
+            speech.text = toRead;
+            window.speechSynthesis.speak(speech);
+            console.log("read");
+            speech.text = "";
+          }
+          
+        }
+        else if(e.key == "t"){
+            document.onkeyup = function () {
+              toRead= document.getSelection().toString();
+              console.log(toRead);
+              if (document.getElementById("chromeextensionpopup") != null){
+                document.getElementById("chromeextensionpopupcloselink").click();
+              }
+              getTranslation(toRead).then(transl => createPopup("Translation: " + transl.data.translation))
+          }
+        }
+      });
+    }
+  });
+  
+  function createPopup(text){
+    var div = document.createElement("div");
+    div.setAttribute("id", "chromeextensionpopup");
+    div.innerText = text;
+    document.body.appendChild(div);
+    
+    var closelink = document.createElement("div");
+    closelink.setAttribute("id", "chromeextensionpopupcloselink");
+    closelink.innerText = 'X';
+    document.getElementById("chromeextensionpopup").appendChild(closelink);
+  
+    document.getElementById("chromeextensionpopupcloselink").addEventListener("click", removeExtensionPopup);
+  }
+  
+  function removeExtensionPopup(){
+      document.getElementById("chromeextensionpopup").outerHTML='';
+  }
