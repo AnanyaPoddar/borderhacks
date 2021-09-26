@@ -121,7 +121,7 @@ fontSize.addEventListener('input', function () {
 // ambient sound 
 window.addEventListener("DOMContentLoaded", event => {
     // event listener for  input
-    let volumes = [0.2, 0.2, 0.2];
+    let volumes = [0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2, 0.2];
     var playPauseBtn = document.getElementById("play");
     var action = "pause";
     // change volume of songs
