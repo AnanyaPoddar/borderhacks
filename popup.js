@@ -34,8 +34,8 @@ window.onload = function () {
     });
 }
 
-brightnessTracker = document.querySelectorAll('input')[0]
-saturationTracker = document.querySelectorAll('input')[1]
+saturationracker = document.getElementById("saturation");
+brightnessTracker = document.getElementById("brightness")
 
 brightnessTracker.addEventListener('input', function () {
 
@@ -171,13 +171,13 @@ defBtn.addEventListener("click", function () {
     request.onload = function () {
         let data = JSON.parse(request.response); //this.response
         console.log(typeof data[0]);
-        if(typeof data[0] == "undefined"){
+        if (typeof data[0] == "undefined") {
             def.innerHTML += "Not a real word.";
         }
-        else{
+        else {
             def.innerHTML += data[0].meanings[0].definitions[0].definition;
         }
-            
+
         // Account for when it's a non-existent word and so doesn't have definition. 
         // Make sure it's a valid single word
         //def.innerHTML += request.response;
@@ -208,7 +208,7 @@ showAll.addEventListener("click", function () {
     p.setAttribute("style", "font-size:12px");
     var wordsToshow = "";
     showhideDiv.appendChild(p);
-    for (var i=0; i<censorWords.length; i++) {
+    for (var i = 0; i < censorWords.length; i++) {
         wordsToshow += censorWords[i] + " ";
     }
     p.innerHTML = wordsToshow;
@@ -224,18 +224,18 @@ speech.lang = "en";
 
 let voices = [];
 window.speechSynthesis.onvoiceschanged = () => {
-  voices = window.speechSynthesis.getVoices();
-  let voiceSelect = document.querySelector("#voices");
-  voices.forEach((voice, i) => (voiceSelect.options[i] = new Option(voice.name, i)));
-  const storedVoice = JSON.parse(localStorage.getItem("index"));
-  if(storedVoice){
+    voices = window.speechSynthesis.getVoices();
+    let voiceSelect = document.querySelector("#voices");
+    voices.forEach((voice, i) => (voiceSelect.options[i] = new Option(voice.name, i)));
+    const storedVoice = JSON.parse(localStorage.getItem("index"));
+    if (storedVoice) {
         speech.voice = voices[storedVoice];
         document.querySelector("#voices").selectedIndex = storedVoice;
-    } 
+    }
 };
 
 const storedSpeed = JSON.parse(localStorage.getItem("speed"));
-if(storedSpeed){
+if (storedSpeed) {
     document.querySelector("#speed").setAttribute("value", storedSpeed);
     document.querySelector("#speed-label").innerHTML = 'Speed - ' + storedSpeed;
 }
@@ -245,16 +245,18 @@ document.querySelector("#speed").addEventListener("input", () => {
     speech.rate = speed;
     localStorage.setItem("speed", speed)
     document.querySelector("#speed-label").innerHTML = 'Speed - ' + speed;
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-      chrome.tabs.sendMessage(tabs[0].id, 
-          {speed: speed,
-          type: "speed"});
-          console.log("info sent")
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id,
+            {
+                speed: speed,
+                type: "speed"
+            });
+        console.log("info sent")
     });
 });
 
 const storedPitch = JSON.parse(localStorage.getItem("pitch"));
-if(storedPitch){
+if (storedPitch) {
     document.querySelector("#pitch").setAttribute("value", storedPitch);
     document.querySelector("#pitch-label").innerHTML = 'Pitch - ' + storedPitch;
 }
@@ -263,22 +265,26 @@ document.querySelector("#pitch").addEventListener("input", () => {
     speech.pitch = pitch;
     localStorage.setItem("pitch", pitch)
     document.querySelector("#pitch-label").innerHTML = 'Pitch - ' + pitch;
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, 
-            {pitch: pitch,
-            type: "pitch"});
-            console.log("info sent")
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id,
+            {
+                pitch: pitch,
+                type: "pitch"
+            });
+        console.log("info sent")
     });
 });
 
 document.querySelector("#voices").addEventListener("change", () => {
     speech.voice = voices[document.querySelector("#voices").value];
     localStorage.setItem("index", document.querySelector("#voices").value);
-    chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-        chrome.tabs.sendMessage(tabs[0].id, 
-            {voiceIndex: document.querySelector("#voices").value,
-            type: "voice"});
-            console.log("info sent")
+    chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+        chrome.tabs.sendMessage(tabs[0].id,
+            {
+                voiceIndex: document.querySelector("#voices").value,
+                type: "voice"
+            });
+        console.log("info sent")
     });
 });
 

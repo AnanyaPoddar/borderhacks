@@ -239,6 +239,10 @@ button, input, optgroup, select, textarea{
   /* border-radius:5px; */
 }
 
+.slidecontainer p, #censor p{
+  margin-bottom:0;
+}
+
 /* .btn{
   display:block;
   margin: 0 auto;
