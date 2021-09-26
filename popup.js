@@ -12,7 +12,8 @@ window.onload = function () {
         console.log(darkMode.value);
     });
     if (darkMode) {
-        document.getElementById('checkbox').checked = true;
+        if (document.getElementById('checkbox') != null)
+            document.getElementById('checkbox').checked = true;
     }
 
     chrome.tabs.query({ active: true, currentWindow: true }, function (tabs) {

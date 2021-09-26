@@ -50,11 +50,7 @@ chrome.runtime.onMessage.addListener(msgObj => {
     }
 });
 
-<<<<<<< HEAD
-
-
 // Definitions - body select's a word
-
 document.addEventListener("selectionchange", function() {
     document.addEventListener("dblclick", function(){
         let selected = window.getSelection().toString();
@@ -70,7 +66,6 @@ document.addEventListener("selectionchange", function() {
         
     })
 })
-=======
 // stuff for censoring words
 chrome.runtime.onMessage.addListener(msgObj => {
     console.log("recieved a message")
@@ -93,4 +88,3 @@ chrome.runtime.onMessage.addListener(msgObj => {
     }
 
 });
->>>>>>> e1c747fe3a16415604bbb738f91a228062b97ff2
