@@ -133,7 +133,7 @@ chrome.runtime.onMessage.addListener(msgObj => {
     var cwWords = msgObj.cwWords;
     console.log(cwWords);
     //alert(cwWords);
-    if(cwWords.length > 0){
+    if(cwWords.length > 0 && cwWords[cwWords.length - 1].length > 0){
         myCWWords.push(cwWords[cwWords.length - 1]); // only takes the last censored word
         
         let containedWords = []
