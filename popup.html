@@ -34,7 +34,7 @@
     </div>
 
     <div class="card-columns">
-      <div class="card border-primary">
+      <div class="card">
         <div class="card-body" id="adjust-text">
           <img src="images/adjustText2.png" class="card-img"></img>
           <h4 class="card-title ">Adjust Text</h4>
@@ -61,35 +61,35 @@
           <div class="flex-container">
             <div class="flex slidecontainer">
               <span class="sounds">Birds</span>
-              <input type="range" min="0" max="100" value="20" class="slider sound-inp">
+              <input type="range" min="0" max="100" value="0" class="slider sound-inp">
             </div>
             <div class="flex slidecontainer">
               <span class="sounds">Cicadas</span>
-              <input type="range" min="0" max="100" value="20" class="slider sound-inp">
+              <input type="range" min="0" max="100" value="0" class="slider sound-inp">
             </div>
             <div class="flex slidecontainer">
               <span class="sounds">Leaves</span>
-              <input type="range" min="0" max="100" value="20" class="slider sound-inp">
+              <input type="range" min="0" max="100" value="0" class="slider sound-inp">
             </div>
             <div class="flex slidecontainer">
               <span class="sounds">Uguisu birds</span>
-              <input type="range" min="0" max="100" value="20" class="slider sound-inp">
+              <input type="range" min="0" max="100" value="0" class="slider sound-inp">
             </div>
             <div class="flex slidecontainer">
               <span class="sounds">Waterfall</span>
-              <input type="range" min="0" max="100" value="20" class="slider sound-inp">
+              <input type="range" min="0" max="100" value="0" class="slider sound-inp">
             </div>
             <div class="flex slidecontainer">
               <span class="sounds">Water-stream</span>
-              <input type="range" min="0" max="100" value="20" class="slider sound-inp">
+              <input type="range" min="0" max="100" value="0" class="slider sound-inp">
             </div>
             <div class="flex slidecontainer">
               <span class="sounds">Windchime</span>
-              <input type="range" min="0" max="100" value="20" class="slider sound-inp">
+              <input type="range" min="0" max="100" value="0" class="slider sound-inp">
             </div>
             <div class="flex slidecontainer">
               <span class="sounds">Wind</span>
-              <input type="range" min="0" max="100" value="20" class="slider sound-inp">
+              <input type="range" min="0" max="100" value="0" class="slider sound-inp">
             </div>
             <div id="play-it">
               <input type="checkbox" id="play">
@@ -98,14 +98,13 @@
           </div>
         </div>
       </div>
-      <div class="card">
+      <!-- <div class="card">
         <div class="card-body">
           <h5 class="Censoring">Card title</h5>
-          <button id="censor-btn">censor page now!</button>
           <input type="text" id="censor-inp">
-          <button id="add-censor-btn">censor</button>
+          <button class="btn btn-outline-success" id="add-censor-btn">censor</button>
         </div>
-      </div>
+      </div> -->
       <!-- Dark mode + saturation -->
       <div class="card " id="primary-color">
         <div class="card-body">
@@ -130,16 +129,22 @@
           </div>
         </div>
       </div>
-      <div class="card text-center">
+      <div class="card" id="censor">
         <div class="card-body">
-          <h5 class="card-title">Content Warnings</h5>
-          <input type="text" id="cw-input">
-          <button id="add-cw-btn">censor</button>
+          <img src="images/cw.png" class="card-img"></img>
+          <h4 class="card-title">Censor Content</h4>
+          <p>Add to content warnings</p>
+          <input type="text" id="cw-input" placeholder="ex.SA">
+          <button class="btn btn-outline-success" id="add-cw-btn">Apply CW</button>
+          <p>Add to censored words</p>
+          <input type="text" id="censor-inp" placeholder="ex.coronavirus">
+          <button class="btn btn-outline-success" id="add-censor-btn">Censor</button>
         </div>
       </div>
-      <div class="card">
+      <div class="card" id="text-to-speech">
         <div class="card-body">
-          <h5 class="card-title">Text-to-Speech</h5>
+          <img src="images/textToSpeech.png" class="card-img"></img>
+          <h4 class="card-title">Text-to-speech</h4>
           <p>
             Highlight text and click 'r' on your keyboard to hear the text spoken aloud.
           </p>
@@ -155,27 +160,20 @@
             <input type="range" min="0" max="2" value="1" step="0.1" class="slider" id="pitch">
             <p id="pitch-label">Pitch - 1</p>
           </div>
-          <!-- <div class="card">
-        <div class="card-body">
-          <h5 class="card-title">Card title</h5>
-          <p class="card-text">This card has supporting text below as a natural lead-in to additional content.</p>
-          <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        </div>
-      </div>
-      <div class="card bg-primary text-white text-center">
-
-      </div> -->
           <!-- Definitions -->
+        </div>
       </div>
       <div class="card">
         <div class="card-body">
-          <h5 class="card-title">Definitions</h5>
+          <img src="images/dictionary.png" class="card-img"></img>
+          <h4 class="card-title">Definitions</h4>
           <input type="text" id="input-el">
-          <button id="def-btn">Search</button>
+          <br>
+          <button class="btn btn-outline-success" id="def-btn">Search</button>
           <p class="card-text" id="word-el"> Word: </p>
-          <p class="card-text" id="definitions-el">Definition: </p>
+          <p class="card-text" id="definitions-el">Definitions:</p>
         </div>
-      </div> 
+      </div>
 </body>
 <script src="popup.js"></script>
 
