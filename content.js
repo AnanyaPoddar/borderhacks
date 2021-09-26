@@ -191,6 +191,10 @@ document.addEventListener('selectionchange', () => {
                     console.log("read");
                     speech.text = "";
                 }
+            } else{
+                document.onkeyup = function (){
+                    console.log(e.key);
+                }
             }
         });
     }
